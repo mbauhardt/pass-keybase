@@ -28,6 +28,8 @@ Usage:
     The parameter 'keybase-id...' is a space separated list of keybase usernames.
   pass keybase encrypt pass-name
     Decrypt the give pass-name via gpg and encrypt it with keybase under the same path but with extension '.keybase'
+  pass keybase remove pass-name
+    Remove the given pass-name from the store.
 _EOF
 }
 
@@ -61,11 +63,29 @@ cmd_encrypt() {
     die ""
   else
     die "Error: $path is not in the password store."
-fi
+  fi
 }
 
 cmd_init() {
   printf "%s\n" "$@" > $PREFIX/.extensions/keybase-id
+}
+
+cmd_remove() {
+  local path="$1"
+  local passfile="$PREFIX/$path.keybase"
+  check_sneaky_paths "$path"
+
+  if [[ -f $passfile ]]; then
+    set_git "$passfile"
+    rm "$passfile"
+    git -C "$INNER_GIT_DIR" rm -qr "$passfile"
+    set_git "$passfile"
+    git_commit "Remove $path from store."
+  elif [[ -z $path ]]; then
+    die ""
+  else
+    die "Error: $path is not in the password store."
+  fi
 }
 
 case "$1" in
@@ -75,13 +95,17 @@ case "$1" in
   version)
     cmd_version
     ;;
+  init)
+    shift;
+    cmd_init "$@"
+    ;;
   encrypt)
     shift;
     cmd_encrypt "$@"
     ;;
-  init)
+  remove)
     shift;
-    cmd_init "$@"
+    cmd_remove "$@"
     ;;
   *)
     cmd_help
