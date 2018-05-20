@@ -23,6 +23,9 @@ Usage:
     Show this help text
   pass keybase version
     Show the version
+  pass init keybase-id...
+    Setup pass-keybase and creates a config file (.extensions/keybase-id) with keybase usernames.
+    The parameter 'keybase-id...' is a space separated list of keybase usernames.
   pass keybase encrypt pass-name
     Decrypt the give pass-name via gpg and encrypt it with keybase under the same path but with extension '.keybase'
 _EOF
@@ -53,12 +56,16 @@ cmd_encrypt() {
   if [[ -f $passfile ]]; then
     $GPG -d "${GPG_OPTS[@]}" "$passfile" | keybase encrypt ${KEYBASE_RECIPIENTS[@]} -o $keybasefile
     set_git "$keybasefile"
-    git_add_file "$keybasefile" "Encrypt $path via keybase"
+    git_add_file "$keybasefile" "Encrypt $path via keybase for user: ${KEYBASE_RECIPIENTS[@]}"
   elif [[ -z $path ]]; then
     die ""
   else
     die "Error: $path is not in the password store."
 fi
+}
+
+cmd_init() {
+  printf "%s\n" "$@" > $PREFIX/.extensions/keybase-id
 }
 
 case "$1" in
@@ -71,6 +78,10 @@ case "$1" in
   encrypt)
     shift;
     cmd_encrypt "$@"
+    ;;
+  init)
+    shift;
+    cmd_init "$@"
     ;;
   *)
     cmd_help
