@@ -28,6 +28,8 @@ Usage:
     The parameter 'keybase-id...' is a space separated list of keybase usernames.
   pass keybase encrypt pass-name
     Decrypt the give pass-name via gpg and encrypt it with keybase under the same path but with extension '.keybase'
+  pass decrypt pass-name
+    Decrypt the given pass-name with keybase.
   pass keybase remove pass-name
     Remove the given pass-name from the store.
 _EOF
@@ -88,6 +90,20 @@ cmd_remove() {
   fi
 }
 
+cmd_decrypt() {
+  local path="$1"
+  local passfile="$PREFIX/$path.keybase"
+  check_sneaky_paths "$path"
+
+  if [[ -f $passfile ]]; then
+    keybase decrypt -i "$passfile" 
+  elif [[ -z $path ]]; then
+    die ""
+  else
+    die "Error: $path is not in the password store."
+  fi
+}
+
 case "$1" in
   help)
     cmd_help
@@ -102,6 +118,10 @@ case "$1" in
   encrypt)
     shift;
     cmd_encrypt "$@"
+    ;;
+  decrypt)
+    shift;
+    cmd_decrypt "$@"
     ;;
   remove)
     shift;
