@@ -35,6 +35,8 @@ Usage:
     The clipboard will be cleared in $CLIP_TIME seconds.
   pass keybase remove pass-name
     Remove the given pass-name from the store.
+  pass keybase remove-all
+    Remove all pass-names from the store.
 _EOF
 }
 
@@ -93,6 +95,14 @@ cmd_remove() {
   fi
 }
 
+cmd_remove_all() {
+  while read -r -d "" passfile; do
+    git -C "$INNER_GIT_DIR" rm -qr "$passfile"
+    set_git "$passfile"
+  done < <(find $PREFIX -iname '*.keybase' -print0)
+  git_commit "Remove all keybase files from store."
+}
+
 cmd_decrypt() {
   local path="$1"
   local passfile="$PREFIX/$path.keybase"
@@ -148,6 +158,9 @@ case "$1" in
   remove)
     shift;
     cmd_remove "$@"
+    ;;
+  remove-all)
+    cmd_remove_all
     ;;
   *)
     cmd_help
