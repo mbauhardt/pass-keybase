@@ -30,6 +30,9 @@ Usage:
     Decrypt the give pass-name via gpg and encrypt it with keybase under the same path but with extension '.keybase'
   pass decrypt pass-name
     Decrypt the given pass-name with keybase.
+  pass clip pass-name
+    Decrypt the given pass-name with keybase and put it on the clipboard.
+    The clipboard will be cleared in $CLIP_TIME seconds.
   pass keybase remove pass-name
     Remove the given pass-name from the store.
 _EOF
@@ -104,6 +107,21 @@ cmd_decrypt() {
   fi
 }
 
+cmd_clip() {
+  local path="$1"
+  local passfile="$PREFIX/$path.keybase"
+  check_sneaky_paths "$path"
+
+  if [[ -f $passfile ]]; then
+      local pass="$(keybase decrypt -i "$passfile" 2>/dev/null | head -n 1)"
+      clip "$pass" "$path"
+  elif [[ -z $path ]]; then
+    die ""
+  else
+    die "Error: $path is not in the password store."
+  fi
+}
+
 case "$1" in
   help)
     cmd_help
@@ -122,6 +140,10 @@ case "$1" in
   decrypt)
     shift;
     cmd_decrypt "$@"
+    ;;
+  clip)
+    shift;
+    cmd_clip "$@"
     ;;
   remove)
     shift;
