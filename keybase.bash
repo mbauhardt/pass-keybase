@@ -27,7 +27,9 @@ Usage:
     Setup pass-keybase and creates a config file (.extensions/keybase-id) with keybase usernames.
     The parameter 'keybase-id...' is a space separated list of keybase usernames.
   pass keybase encrypt pass-name
-    Decrypt the give pass-name via gpg and encrypt it with keybase under the same path but with extension '.keybase'
+    Decrypt temporary the give pass-name via gpg and encrypt it with keybase under the same path but with extension '.keybase'.
+  pass keybase encrypt-all
+    Decrypt all gpg encrypted passwords temporary and encrypt everything again via keybase under the the same path but with extension '.keybase'
   pass decrypt pass-name
     Decrypt the given pass-name with keybase.
   pass clip pass-name
@@ -71,6 +73,16 @@ cmd_encrypt() {
   else
     die "Error: $path is not in the password store."
   fi
+}
+
+cmd_encrypt_all() {
+  set_keybase_recipients
+  while read -r -d "" passfile; do
+    local keybasefile="${passfile%.gpg}.keybase"
+    $GPG -d "${GPG_OPTS[@]}" "$passfile" | keybase encrypt ${KEYBASE_RECIPIENTS[@]} -o $keybasefile
+    set_git "$keybasefile"
+  done < <(find $PREFIX -iname '*.gpg' -print0)
+  git_add_file "$PREFIX" "Reencrypt password store using keybase-id ${KEYBASE_RECIPIENTS[@]}"
 }
 
 cmd_init() {
@@ -146,6 +158,10 @@ case "$1" in
   encrypt)
     shift;
     cmd_encrypt "$@"
+    ;;
+  encrypt-all)
+    shift;
+    cmd_encrypt_all
     ;;
   decrypt)
     shift;
