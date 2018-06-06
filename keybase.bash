@@ -1,5 +1,5 @@
 cmd_version() {
-  echo 'v0.1'
+  echo '0.1'
 }
 
 cmd_description() {
@@ -7,7 +7,7 @@ cmd_description() {
 =================================================================
 = pass-keybase: Re-encrypt and decrypt pass entries via keybase =
 =                                                               =
-=                           v0.1                                =
+=                           0.1                                =
 =                                                               =
 =           https://github.com/mbauhardt/pass-keybase           =
 =================================================================
