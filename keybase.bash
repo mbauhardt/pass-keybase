@@ -23,16 +23,16 @@ Usage:
     Show this help text
   pass keybase version
     Show the version
-  pass init keybase-id...
+  pass keybase init keybase-id...
     Setup pass-keybase and creates a config file (.extensions/keybase-id) with keybase usernames.
     The parameter 'keybase-id...' is a space separated list of keybase usernames.
   pass keybase encrypt pass-name
     Decrypt temporary the give pass-name via gpg and encrypt it with keybase under the same path but with extension '.keybase'.
   pass keybase encrypt-all
     Decrypt all gpg encrypted passwords temporary and encrypt everything again via keybase under the the same path but with extension '.keybase'
-  pass decrypt pass-name
+  pass keybase decrypt pass-name
     Decrypt the given pass-name with keybase.
-  pass clip pass-name
+  pass keybase clip pass-name
     Decrypt the given pass-name with keybase and put it on the clipboard.
     The clipboard will be cleared in $CLIP_TIME seconds.
   pass keybase remove pass-name
