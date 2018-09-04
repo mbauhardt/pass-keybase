@@ -77,3 +77,9 @@ To remove a given pass-name use the command described below.
 With `remove-all` all of your keybase encrypted passwords will be removed.
 
     pass keybase remove-all
+
+`report` print out how many GPG and how many Keybase encrypted files you have.
+
+    pass keybase report
+
+

@@ -1,5 +1,5 @@
 cmd_version() {
-  echo '0.1'
+  echo 'v0.2'
 }
 
 cmd_description() {
@@ -7,7 +7,7 @@ cmd_description() {
 =================================================================
 = pass-keybase: Re-encrypt and decrypt pass entries via keybase =
 =                                                               =
-=                           0.1                                =
+=                           v0.2                                =
 =                                                               =
 =           https://github.com/mbauhardt/pass-keybase           =
 =================================================================
@@ -39,6 +39,8 @@ Usage:
     Remove the given pass-name from the store.
   pass keybase remove-all
     Remove all pass-names from the store.
+  pass keybase report
+    Print out a report about how many gpg and keybase encrypted entries you have.
 _EOF
 }
 
@@ -144,6 +146,21 @@ cmd_clip() {
   fi
 }
 
+cmd_report() {
+  local gpgcount=0;
+  local kbcount=0;
+  
+  while read -r -d "" passfile; do
+    let gpgcount++;
+  done < <(find $PREFIX -iname '*.gpg' -print0)
+  echo 'Number of GPG encryped files: '$gpgcount
+
+  while read -r -d "" passfile; do
+    let kbcount++;
+  done < <(find $PREFIX -iname '*.keybase' -print0)
+  echo 'Number of Keybase encryped files: '$kbcount
+}
+
 case "$1" in
   help)
     cmd_help
@@ -177,6 +194,9 @@ case "$1" in
     ;;
   remove-all)
     cmd_remove_all
+    ;;
+  report)
+    cmd_report
     ;;
   *)
     cmd_help
