@@ -123,7 +123,7 @@ cmd_decrypt() {
   check_sneaky_paths "$path"
 
   if [[ -f $passfile ]]; then
-    keybase decrypt -i "$passfile" 
+    keybase decrypt --force -i "$passfile" 
   elif [[ -z $path ]]; then
     die ""
   else
@@ -137,7 +137,7 @@ cmd_clip() {
   check_sneaky_paths "$path"
 
   if [[ -f $passfile ]]; then
-      local pass="$(keybase decrypt -i "$passfile" 2>/dev/null | head -n 1)"
+      local pass="$(keybase decrypt --force -i "$passfile" 2>/dev/null | head -n 1)"
       clip "$pass" "$path"
   elif [[ -z $path ]]; then
     die ""
