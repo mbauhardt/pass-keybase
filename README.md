@@ -52,7 +52,7 @@ Install pass-keybase as submodule
 
 Commit and push the submodule to your existing git repo
 
-    cd ~/.password-store/.extensions
+    cd ~/.password-store
     git add .extensions/pass-keybase
     git add .gitmodules
     git add .extensions/keybase.bash
