@@ -149,7 +149,8 @@ cmd_clip() {
 cmd_report() {
   local gpgcount=0;
   local kbcount=0;
-  
+
+  echo ''
   while read -r -d "" passfile; do
     let gpgcount++;
   done < <(find $PREFIX -iname '*.gpg' -print0)
@@ -159,6 +160,16 @@ cmd_report() {
     let kbcount++;
   done < <(find $PREFIX -iname '*.keybase' -print0)
   echo 'Number of Keybase encryped files: '$kbcount
+
+  echo ''
+  echo 'GPG encrypted passwords which are not encrypted with Keybase:'
+  echo '*************************************************************'
+  while read -r -d "" passfile; do
+      local keytoshow="${passfile%.gpg}"
+      local keybasefile="${passfile%.gpg}.keybase"
+      [ ! -f $keybasefile ] && echo ${keytoshow#$PREFIX/}
+  done < <(find $PREFIX -iname '*.gpg' -print0)
+
 }
 
 case "$1" in
