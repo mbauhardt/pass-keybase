@@ -21,9 +21,6 @@ In other words, keybase encrypted passwords will be commited to your git repo.
 Lets create a new password store and enable the extension support
 
     /tmp/passwords
-    ❯ export PASSWORD_STORE_ENABLE_EXTENSIONS=true
-
-    /tmp/passwords
     ❯ export PASSWORD_STORE_DIR=/tmp/passwords
 
 Generate a new password, e.g. for github.com
