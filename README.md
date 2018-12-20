@@ -1,3 +1,14 @@
+# Table of Contents
+1. [Background](#background)
+2. [Goal](#goal)
+3. [Solution](#solution)
+3.1. [Tutorial](#tutorial)
+3.2. [Usage](#usage)
+3.3. [Installation](#installation)
+3.3.1. [Quick and Dirty](#quick-and-dirty)
+3.3.2. [The recommended way](#the-recommended-way)
+
+
 # Background
 The idea behind this project is to have an encrypted backup of my gpg container maintained with pass.
 One question could be why would I like to have a backup?
