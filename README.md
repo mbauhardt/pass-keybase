@@ -1,12 +1,12 @@
 # Table of Contents
-1. [Background](#background)
-2. [Goal](#goal)
-3. [Solution](#solution)
-    3.1. [Tutorial](#tutorial)
-    3.2. [Usage](#usage)
-    3.3. [Installation](#installation)
-       3.3.1. [Quick and Dirty](#quick-and-dirty)
-       3.3.2. [The recommended way](#the-recommended-way)
+* [Background](#background)
+* [Goal](#goal)
+* [Solution](#solution)
+    * [Tutorial](#tutorial)
+    * [Usage](#usage)
+    * [Installation](#installation)
+        * [Quick and Dirty](#quick-and-dirty)
+        * [The recommended way](#the-recommended-way)
 
 
 # Background
