@@ -1,5 +1,5 @@
 cmd_version() {
-  echo '0.2'
+  echo 'v0.3'
 }
 
 cmd_description() {
@@ -7,7 +7,7 @@ cmd_description() {
 =================================================================
 = pass-keybase: Re-encrypt and decrypt pass entries via keybase =
 =                                                               =
-=                           0.2                                =
+=                           v0.3                                =
 =                                                               =
 =           https://github.com/mbauhardt/pass-keybase           =
 =================================================================
@@ -46,7 +46,7 @@ _EOF
 
 set_keybase_recipients() {
   KEYBASE_RECIPIENTS=( )
-  local kbid="$PREFIX/.extensions/keybase-id"
+  local kbid="${XDG_CONFIG_HOME:-$HOME/.config}/pass-keybase/keybase-id"
   if [[ ! -f $kbid ]]; then
     cat << _EOF
       Error: You must run '$PROGRAM keybase init keybase-id...' before you want to use the password store keybase extension.
@@ -88,7 +88,8 @@ cmd_encrypt_all() {
 }
 
 cmd_init() {
-  printf "%s\n" "$@" > $PREFIX/.extensions/keybase-id
+  mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}/pass-keybase"
+  printf "%s\n" "$@" > "${XDG_CONFIG_HOME:-$HOME/.config}/pass-keybase/keybase-id"
 }
 
 cmd_remove() {
