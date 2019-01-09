@@ -27,6 +27,7 @@ Decrypt a password
 
 .. toctree::
    :caption: Users
-   :maxdepth: 1
+   :maxdepth: 2
 
    background
+   tutorial
