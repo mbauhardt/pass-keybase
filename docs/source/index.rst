@@ -32,3 +32,5 @@ Decrypt a password
    background
    tutorial
    usage
+   installation
+
