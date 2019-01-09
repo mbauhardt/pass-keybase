@@ -23,3 +23,10 @@ Decrypt a password
 
 .. image:: /images/decrypt.png
 
+
+
+.. toctree::
+   :caption: Users
+   :maxdepth: 1
+
+   background
