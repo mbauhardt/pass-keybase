@@ -54,3 +54,10 @@ Commit and push the submodule to your existing git repo
   git add .extensions/keybase.bash
   git commit -m 'added submodule pass-keybase'
 
+Update to the latest version
+
+::
+
+  cd ~/.password-store/
+  git submodule update --remote
+
