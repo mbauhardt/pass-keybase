@@ -34,3 +34,9 @@ Decrypt a password
    usage
    installation
 
+.. toctree::
+   :caption: General
+   :maxdepth: 2
+
+   support
+   license
