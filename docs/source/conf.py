@@ -24,9 +24,9 @@ copyright = '2019, Marko Bauhardt'
 author = 'Marko Bauhardt'
 
 # The short X.Y version
-version = ''
+version = '0.3.1'
 # The full version, including alpha/beta/rc tags
-release = '0.3'
+release = '0.3.1'
 
 
 # -- General configuration ---------------------------------------------------
