@@ -47,6 +47,8 @@ The clipboard will be cleared in $CLIP_TIME seconds.
 
 To remove a given pass-name use the command described below.
 
+::
+
   pass keybase remove pass-name
 
 With `remove-all` all of your keybase encrypted passwords will be removed.
