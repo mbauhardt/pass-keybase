@@ -41,6 +41,10 @@ Usage:
     Remove all pass-names from the store.
   pass keybase report
     Print out a report about how many gpg and keybase encrypted entries you have.
+  pass keybase diff
+    Print out all entries from the store which are not in sync. Either the content of the GPG and Keybase passwords are not the same
+    or a GPG password is not encrypted with Keybase.
+    This command can be run a while, because all entries from your store will be decrypted to make the comparison.
 _EOF
 }
 
@@ -173,6 +177,20 @@ cmd_report() {
 
 }
 
+cmd_diff() {
+  while read -r -d "" passfile; do
+    local keytoshow="${passfile%.gpg}"
+    local keybasefile="${passfile%.gpg}.keybase"
+    if [[ ! -f "$keybasefile" ]]; then
+      echo ${keytoshow#$PREFIX/}
+    else
+      local md5_gpg=$($GPG -d "${GPG_OPTS[@]}" $passfile | md5sum)
+      local md5_keybase="$(keybase decrypt --force -i $keybasefile 2> /dev/null | md5sum)"
+      [[ $md5_gpg != $md5_keybase ]] && echo ${keytoshow#$PREFIX/}
+    fi
+  done < <(find $PREFIX -iname '*.gpg' -print0)
+}
+
 case "$1" in
   help)
     cmd_help
@@ -209,6 +227,9 @@ case "$1" in
     ;;
   report)
     cmd_report
+    ;;
+  diff)
+    cmd_diff
     ;;
   *)
     cmd_help

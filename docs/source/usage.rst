@@ -63,3 +63,13 @@ With `remove-all` all of your keybase encrypted passwords will be removed.
 
   pass keybase report
 
+Over the time it will happen that you have to update your password from a given
+website. If so, you will use `pass` to update your GPG password, and maybe
+forget to update your keybase entry via `pass keybase encrypt`. And this can
+happen to many of your passwords. Using the `diff` command can help to get an
+overview which passwords are not in sync / are not equal to each other.
+
+::
+
+  pass keybase diff
+
