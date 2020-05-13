@@ -66,11 +66,11 @@ cmd_encrypt() {
   local keybasefile="$PREFIX/$path.keybase"
   check_sneaky_paths "$path"
 
-  if [[ -f $passfile ]]; then
-    $GPG -d "${GPG_OPTS[@]}" "$passfile" | keybase encrypt ${KEYBASE_RECIPIENTS[@]} -o $keybasefile
+  if [[ -f "$passfile" ]]; then
+    $GPG -d "${GPG_OPTS[@]}" "$passfile" | keybase encrypt -o "$keybasefile" ${KEYBASE_RECIPIENTS[@]}
     set_git "$keybasefile"
     git_add_file "$keybasefile" "Encrypt $path via keybase for user: ${KEYBASE_RECIPIENTS[@]}"
-  elif [[ -z $path ]]; then
+  elif [[ -z "$path" ]]; then
     die ""
   else
     die "Error: $path is not in the password store."
@@ -81,9 +81,9 @@ cmd_encrypt_all() {
   set_keybase_recipients
   while read -r -d "" passfile; do
     local keybasefile="${passfile%.gpg}.keybase"
-    $GPG -d "${GPG_OPTS[@]}" "$passfile" | keybase encrypt ${KEYBASE_RECIPIENTS[@]} -o $keybasefile
+    $GPG -d "${GPG_OPTS[@]}" "$passfile" | keybase encrypt -o "$keybasefile" ${KEYBASE_RECIPIENTS[@]}
     set_git "$keybasefile"
-  done < <(find $PREFIX -iname '*.gpg' -print0)
+  done < <(find "$PREFIX" -iname '*.gpg' -print0)
   git_add_file "$PREFIX" "Reencrypt password store using keybase-id ${KEYBASE_RECIPIENTS[@]}"
 }
 
@@ -97,13 +97,13 @@ cmd_remove() {
   local passfile="$PREFIX/$path.keybase"
   check_sneaky_paths "$path"
 
-  if [[ -f $passfile ]]; then
+  if [[ -f "$passfile" ]]; then
     set_git "$passfile"
     rm "$passfile"
     git -C "$INNER_GIT_DIR" rm -qr "$passfile"
     set_git "$passfile"
     git_commit "Remove $path from store."
-  elif [[ -z $path ]]; then
+  elif [[ -z "$path" ]]; then
     die ""
   else
     die "Error: $path is not in the password store."
@@ -114,7 +114,7 @@ cmd_remove_all() {
   while read -r -d "" passfile; do
     git -C "$INNER_GIT_DIR" rm -qr "$passfile"
     set_git "$passfile"
-  done < <(find $PREFIX -iname '*.keybase' -print0)
+  done < <(find "$PREFIX" -iname '*.keybase' -print0)
   git_commit "Remove all keybase files from store."
 }
 
@@ -123,9 +123,9 @@ cmd_decrypt() {
   local passfile="$PREFIX/$path.keybase"
   check_sneaky_paths "$path"
 
-  if [[ -f $passfile ]]; then
+  if [[ -f "$passfile" ]]; then
     keybase decrypt --force -i "$passfile" 
-  elif [[ -z $path ]]; then
+  elif [[ -z "$path" ]]; then
     die ""
   else
     die "Error: $path is not in the password store."
@@ -137,10 +137,10 @@ cmd_clip() {
   local passfile="$PREFIX/$path.keybase"
   check_sneaky_paths "$path"
 
-  if [[ -f $passfile ]]; then
-      local pass="$(keybase decrypt --force -i "$passfile" 2>/dev/null | head -n 1)"
+  if [[ -f "$passfile" ]]; then
+      local pass="$(keybase decrypt --force -i $passfile 2>/dev/null | head -n 1)"
       clip "$pass" "$path"
-  elif [[ -z $path ]]; then
+  elif [[ -z "$path" ]]; then
     die ""
   else
     die "Error: $path is not in the password store."
@@ -154,12 +154,12 @@ cmd_report() {
   echo ''
   while read -r -d "" passfile; do
     let gpgcount++;
-  done < <(find $PREFIX -iname '*.gpg' -print0)
+  done < <(find "$PREFIX" -iname '*.gpg' -print0)
   echo 'Number of GPG encryped files: '$gpgcount
 
   while read -r -d "" passfile; do
     let kbcount++;
-  done < <(find $PREFIX -iname '*.keybase' -print0)
+  done < <(find "$PREFIX" -iname '*.keybase' -print0)
   echo 'Number of Keybase encryped files: '$kbcount
 
   echo ''
@@ -168,8 +168,8 @@ cmd_report() {
   while read -r -d "" passfile; do
       local keytoshow="${passfile%.gpg}"
       local keybasefile="${passfile%.gpg}.keybase"
-      [ ! -f $keybasefile ] && echo ${keytoshow#$PREFIX/}
-  done < <(find $PREFIX -iname '*.gpg' -print0)
+      [ ! -f "$keybasefile" ] && echo "${keytoshow#$PREFIX/}"
+  done < <(find "$PREFIX" -iname '*.gpg' -print0)
 
 }
 
