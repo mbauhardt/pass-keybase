@@ -23,6 +23,8 @@ Decrypt a password
 
 .. image:: /images/decrypt.png
 
+There are several more commands, e.g. reporting to figure out if your
+GPG and Keybase keychain is in sync.
 
 
 .. toctree::
