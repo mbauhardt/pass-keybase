@@ -21,4 +21,6 @@ Decrypt a password
 
 .. image:: https://pass-keybase.readthedocs.io/en/latest/_images/decrypt.png
 
+There are several more commands, e.g. reporting to figure out if your
+GPG and Keybase keychain is in sync.
 
