@@ -89,3 +89,33 @@ For sure, you can also encrypt a single gpg entry
       ├── mailbox.org
       └── mailbox.org.keybase
 
+In case you update a password with GPG, but forget to update your
+Keybase version, use the built in diff command to figure out which
+passwords are not in sync.
+
+::
+
+  /tmp/passwords
+  ❯ pass
+  Password Store
+  └── Websites
+      ├── github.com
+      ├── github.com.keybase
+      ├── mailbox.org
+      └── mailbox.org.keybase
+
+  /tmp/passwords
+  ❯ pass edit Websites/github.com
+
+  /tmp/passwords 7s
+  ❯ pass keybase diff
+  Websites/github.com
+
+  /tmp/passwords 7s
+  ❯ pass keybase encrypt Websites/github.com
+
+  /tmp/passwords
+  ❯ pass keybase diff
+
+  /tmp/passwords 6s
+
